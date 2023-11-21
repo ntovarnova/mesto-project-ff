@@ -15,12 +15,12 @@ function addCard(cardData, handleDeleteCard) {
   document.querySelector('.places__list').append(templateElement);
 }
 
-function handleDeleteCard(evt) {
-  evt.target.closest('.places__item').remove();
+function handleDeleteCard(e) {
+  e.target.closest('.places__item').remove();
 }
 
-initialCards.forEach((cardData) => {
-  addCard(cardData, handleDeleteCard);
+initialCards.forEach((x) => {
+  addCard(x, handleDeleteCard);
 });
 
 // @todo: DOM узлы
