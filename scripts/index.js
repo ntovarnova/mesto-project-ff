@@ -13,7 +13,6 @@ function addCard(cardData, handleDeleteCard) {
   deleteButton.addEventListener("click", handleDeleteCard);
 
   document.querySelector('.places__list').append(templateElement);
-  return templateElement;
 }
 
 function handleDeleteCard(evt) {
