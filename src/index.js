@@ -29,6 +29,10 @@ function createCard(cardData, handleDeleteCard) {
     caption.textContent = cardImage.alt;
     openModal(TypeImage);
   });
+  const cardLikeButton = templateElement.querySelector(".card__like-button");
+  cardLikeButton.addEventListener("click", function (evt) {
+    evt.target.classList.toggle("card__like-button_is-active");
+  });
   return templateElement;
 }
 
