@@ -17,7 +17,7 @@ const editPopupButton = document.querySelector(".profile__edit-button");
 const profileAddButton = document.querySelector(".profile__add-button");
 const editPopup = document.querySelector(".popup_type_edit");
 const typenNewCard = document.querySelector(".popup_type_new-card");
-const TypeImage = document.querySelector(".popup_type_image");
+
 
 editPopupButton.addEventListener("click", function () {
   openModal(editPopup); // открываем попап редактирования
