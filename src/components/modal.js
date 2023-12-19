@@ -1,6 +1,6 @@
-export function closeModal(x) {
-  x.style.visibility = "hidden";
-  x.style.opacity = "0";
+export function closeModal(popup) {
+  popup.style.visibility = "hidden";
+  popup.style.opacity = "0";
 }
 export function openModal(popupElement) {
   popupElement.style.display = "flex";
