@@ -1,43 +1,12 @@
 import "./pages/index.css";
 import { initialCards } from "./scripts/cards.js";
-import { openModal, closeModal } from "./scripts/modal.js";
+import { openModal, closeModal } from "./components/modal.js";
+import { createCard, handleDeleteCard } from "./components/card.js";
 
-// @todo: Темплейт карточки
 function addCard(cardData, handleDeleteCard) {
   const templateElement = createCard(cardData, handleDeleteCard);
   const placeList = document.querySelector(".places__list");
   placeList.append(templateElement);
-}
-
-function createCard(cardData, handleDeleteCard) {
-  const template = document.querySelector("#card-template").content;
-  const templateElement = template
-    .querySelector(".places__item")
-    .cloneNode(true);
-  const cardImage = templateElement.querySelector(".card__image");
-  const cardTitle = templateElement.querySelector(".card__title");
-  cardTitle.textContent = cardData.name;
-  cardImage.src = cardData.link;
-  cardImage.alt = cardData.name;
-  const deleteButton = templateElement.querySelector(".card__delete-button");
-  deleteButton.addEventListener("click", handleDeleteCard);
-  cardImage.addEventListener("click", () => {
-    const img = TypeImage.querySelector("img");
-    img.src = cardImage.src;
-    img.alt = cardImage.alt;
-    const caption = TypeImage.querySelector(".popup__caption");
-    caption.textContent = cardImage.alt;
-    openModal(TypeImage);
-  });
-  const cardLikeButton = templateElement.querySelector(".card__like-button");
-  cardLikeButton.addEventListener("click", function (evt) {
-    evt.target.classList.toggle("card__like-button_is-active");
-  });
-  return templateElement;
-}
-
-function handleDeleteCard(e) {
-  e.target.closest(".places__item").remove();
 }
 
 initialCards.forEach((x) => {
@@ -71,14 +40,7 @@ document.querySelectorAll(".popup").forEach((p) => {
     }
   });
 });
-// вызываем функцию закрытия
-// @todo: DOM узлы
 
-// @todo: Функция создания карточки
-
-// @todo: Функция удаления карточки
-
-// @todo: Вывести карточки на страницу
 // Находим форму в DOM
 const formElement = document.forms["edit-profile"];
 const nameInput = document.querySelector(".popup__input_type_name");
