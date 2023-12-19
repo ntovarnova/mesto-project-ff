@@ -41,7 +41,7 @@ document.querySelectorAll(".popup").forEach((p) => {
   p.querySelector("button.popup__close").addEventListener("click", function () {
     closeModal(p);
   });
-  window.addEventListener("click", (e) => {
+  p.addEventListener("click", (e) => {
     if (e.target === p) {
       closeModal(p);
     }

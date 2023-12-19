@@ -1,9 +1,9 @@
 export function closeModal(popup) {
-  popup.style.visibility = "hidden";
-  popup.style.opacity = "0";
+  popup.classList.remove("popup_is-opened");
+  popup.classList.add("popup_is-animated");
 }
-export function openModal(popupElement) {
-  popupElement.style.display = "flex";
-  popupElement.style.visibility = "visible";
-  popupElement.style.opacity = "1";
+
+export function openModal(popup) {
+  popup.classList.add("popup_is-opened");
+  popup.classList.add("popup_is-animated");
 }
