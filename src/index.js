@@ -29,6 +29,8 @@ initialCards.forEach((cardData) => {
 
 editPopupButton.addEventListener("click", function () {
   openModal(editProfilePopup);
+  nameInput.value = profileTitle.textContent; 
+  jobInput.value = profileDescription.textContent;
 });
 
 profileAddButton.addEventListener("click", function () {
@@ -36,7 +38,9 @@ profileAddButton.addEventListener("click", function () {
 });
 
 document.querySelectorAll(".popup").forEach((p) => {
-  p.querySelector("button.popup__close").onclick = () => closeModal(p);
+  p.querySelector("button.popup__close").addEventListener("click", function () {
+    closeModal(p);
+  });
   window.addEventListener("click", (e) => {
     if (e.target === p) {
       closeModal(p);
@@ -49,8 +53,6 @@ document.querySelectorAll(".popup").forEach((p) => {
   });
 });
 
-nameInput.value = "Жак-Ив Кусто";
-jobInput.value = "Исследователь океана";
 editProfileForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const nameValue = nameInput.value;
@@ -64,14 +66,14 @@ newPlaceForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const inputCardName = cardNameInput.value;
   const inputUrl = urlInput.value;
-  const NewCard = createCard(
+  const newCard = createCard(
     {
       name: inputCardName,
       link: inputUrl,
     },
     handleDeleteCard
   );
-  placesContainer.prepend(NewCard);
+  placesContainer.prepend(newCard);
   newPlaceForm.reset();
   closeModal(newCardPopup);
 });
