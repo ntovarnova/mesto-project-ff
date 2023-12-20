@@ -1,7 +1,7 @@
 import "./pages/index.css";
 import { initialCards } from "./scripts/cards.js";
 import { openModal, closeModal } from "./components/modal.js";
-import { createCard, handleDeleteCard } from "./components/card.js";
+import { createCard } from "./components/card.js";
 
 const editPopupButton = document.querySelector(".profile__edit-button");
 const profileAddButton = document.querySelector(".profile__add-button");
@@ -18,18 +18,18 @@ const cardNameInput = document.querySelector(".popup__input_type_card-name");
 const urlInput = document.querySelector(".popup__input_type_url");
 const placesContainer = document.querySelector(".places__list");
 
-function addCard(cardData, handleDeleteCard) {
-  const templateElement = createCard(cardData, handleDeleteCard);
+function addCard(cardData) {
+  const templateElement = createCard(cardData);
   placeList.append(templateElement);
 }
 
 initialCards.forEach((cardData) => {
-  addCard(cardData, handleDeleteCard);
+  addCard(cardData);
 });
 
 editPopupButton.addEventListener("click", function () {
   openModal(editProfilePopup);
-  nameInput.value = profileTitle.textContent; 
+  nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
 });
 
@@ -43,11 +43,6 @@ document.querySelectorAll(".popup").forEach((p) => {
   });
   p.addEventListener("click", (e) => {
     if (e.target === p) {
-      closeModal(p);
-    }
-  });
-  document.addEventListener("keydown", (e) => {
-    if (e.code === "Escape") {
       closeModal(p);
     }
   });
@@ -66,13 +61,10 @@ newPlaceForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const inputCardName = cardNameInput.value;
   const inputUrl = urlInput.value;
-  const newCard = createCard(
-    {
-      name: inputCardName,
-      link: inputUrl,
-    },
-    handleDeleteCard
-  );
+  const newCard = createCard({
+    name: inputCardName,
+    link: inputUrl,
+  });
   placesContainer.prepend(newCard);
   newPlaceForm.reset();
   closeModal(newCardPopup);

@@ -4,7 +4,7 @@ const imagePopup = document.querySelector(".popup_type_image");
 const template = document.querySelector("#card-template").content;
 const placesItem = template.querySelector(".places__item");
 
-export function createCard(cardData, handleDeleteCard) {
+export function createCard(cardData) {
   const templateElement = placesItem.cloneNode(true);
   const cardImage = templateElement.querySelector(".card__image");
   const cardTitle = templateElement.querySelector(".card__title");
@@ -28,6 +28,6 @@ export function createCard(cardData, handleDeleteCard) {
   return templateElement;
 }
 
-export function handleDeleteCard(e) {
+function handleDeleteCard(e) {
   e.target.closest(".places__item").remove();
 }
