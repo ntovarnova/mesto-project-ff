@@ -17,9 +17,19 @@ const newPlaceForm = document.forms["new-place"];
 const cardNameInput = document.querySelector(".popup__input_type_card-name");
 const urlInput = document.querySelector(".popup__input_type_url");
 const placesContainer = document.querySelector(".places__list");
+const imagePopup = document.querySelector(".popup_type_image");
+const caption = imagePopup.querySelector(".popup__caption");
+
+function handleOpenCard(imageTitle, imageSrc) {
+  const img = imagePopup.querySelector("img");
+  img.src = imageSrc;
+  img.alt = imageTitle;
+  caption.textContent = imageTitle;
+  openModal(imagePopup);
+}
 
 function addCard(cardData) {
-  const templateElement = createCard(cardData, handleLike);
+  const templateElement = createCard(cardData, handleOpenCard, handleLike);
   placeList.append(templateElement);
 }
 
@@ -66,6 +76,7 @@ newPlaceForm.addEventListener("submit", (event) => {
       name: inputCardName,
       link: inputUrl,
     },
+    handleOpenCard,
     handleLike
   );
   placesContainer.prepend(newCard);
