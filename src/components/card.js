@@ -4,7 +4,7 @@ const imagePopup = document.querySelector(".popup_type_image");
 const template = document.querySelector("#card-template").content;
 const placesItem = template.querySelector(".places__item");
 
-export function createCard(cardData) {
+export function createCard(cardData, handleLike) {
   const templateElement = placesItem.cloneNode(true);
   const cardImage = templateElement.querySelector(".card__image");
   const cardTitle = templateElement.querySelector(".card__title");
@@ -12,7 +12,9 @@ export function createCard(cardData) {
   cardImage.src = cardData.link;
   cardImage.alt = cardData.name;
   const deleteButton = templateElement.querySelector(".card__delete-button");
-  deleteButton.addEventListener("click", handleDeleteCard);
+  deleteButton.addEventListener("click", () =>
+    handleDeleteCard(templateElement)
+  );
   cardImage.addEventListener("click", () => {
     const img = imagePopup.querySelector("img");
     img.src = cardImage.src;
@@ -22,12 +24,15 @@ export function createCard(cardData) {
     openModal(imagePopup);
   });
   const cardLikeButton = templateElement.querySelector(".card__like-button");
-  cardLikeButton.addEventListener("click", function (evt) {
-    evt.target.classList.toggle("card__like-button_is-active");
-  });
+  cardLikeButton.addEventListener("click", handleLike);
+
   return templateElement;
 }
 
-function handleDeleteCard(e) {
-  e.target.closest(".places__item").remove();
+export function handleLike(evt) {
+  evt.target.classList.toggle("card__like-button_is-active");
+}
+
+function handleDeleteCard(cardElement) {
+  cardElement.remove();
 }

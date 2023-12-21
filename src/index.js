@@ -1,7 +1,7 @@
 import "./pages/index.css";
 import { initialCards } from "./scripts/cards.js";
 import { openModal, closeModal } from "./components/modal.js";
-import { createCard } from "./components/card.js";
+import { createCard, handleLike } from "./components/card.js";
 
 const editPopupButton = document.querySelector(".profile__edit-button");
 const profileAddButton = document.querySelector(".profile__add-button");
@@ -19,7 +19,7 @@ const urlInput = document.querySelector(".popup__input_type_url");
 const placesContainer = document.querySelector(".places__list");
 
 function addCard(cardData) {
-  const templateElement = createCard(cardData);
+  const templateElement = createCard(cardData, handleLike);
   placeList.append(templateElement);
 }
 
@@ -61,10 +61,13 @@ newPlaceForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const inputCardName = cardNameInput.value;
   const inputUrl = urlInput.value;
-  const newCard = createCard({
-    name: inputCardName,
-    link: inputUrl,
-  });
+  const newCard = createCard(
+    {
+      name: inputCardName,
+      link: inputUrl,
+    },
+    handleLike
+  );
   placesContainer.prepend(newCard);
   newPlaceForm.reset();
   closeModal(newCardPopup);
