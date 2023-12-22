@@ -1,12 +1,10 @@
 export function closeModal(popup) {
   popup.classList.remove("popup_is-opened");
-  popup.classList.add("popup_is-animated");
   document.removeEventListener("keydown", closeByEsc);
 }
 
 export function openModal(popup) {
   popup.classList.add("popup_is-opened");
-  popup.classList.add("popup_is-animated");
   document.addEventListener("keydown", closeByEsc);
 }
 

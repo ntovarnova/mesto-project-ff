@@ -1,7 +1,7 @@
 import "./pages/index.css";
 import { initialCards } from "./scripts/cards.js";
 import { openModal, closeModal } from "./components/modal.js";
-import { createCard, handleLike } from "./components/card.js";
+import { createCard, handleLike, handleDeleteCard } from "./components/card.js";
 
 const editPopupButton = document.querySelector(".profile__edit-button");
 const profileAddButton = document.querySelector(".profile__add-button");
@@ -19,9 +19,9 @@ const urlInput = document.querySelector(".popup__input_type_url");
 const placesContainer = document.querySelector(".places__list");
 const imagePopup = document.querySelector(".popup_type_image");
 const caption = imagePopup.querySelector(".popup__caption");
+const img = imagePopup.querySelector("img");
 
 function handleOpenCard(imageTitle, imageSrc) {
-  const img = imagePopup.querySelector("img");
   img.src = imageSrc;
   img.alt = imageTitle;
   caption.textContent = imageTitle;
@@ -29,7 +29,12 @@ function handleOpenCard(imageTitle, imageSrc) {
 }
 
 function addCard(cardData) {
-  const templateElement = createCard(cardData, handleOpenCard, handleLike);
+  const templateElement = createCard(
+    cardData,
+    handleOpenCard,
+    handleLike,
+    handleDeleteCard
+  );
   placeList.append(templateElement);
 }
 
@@ -47,13 +52,15 @@ profileAddButton.addEventListener("click", function () {
   openModal(newCardPopup);
 });
 
-document.querySelectorAll(".popup").forEach((p) => {
-  p.querySelector("button.popup__close").addEventListener("click", function () {
-    closeModal(p);
-  });
-  p.addEventListener("click", (e) => {
-    if (e.target === p) {
-      closeModal(p);
+document.querySelectorAll(".popup").forEach((popup) => {
+  popup
+    .querySelector("button.popup__close")
+    .addEventListener("click", function () {
+      closeModal(popup);
+    });
+  popup.addEventListener("click", (e) => {
+    if (e.target === popup) {
+      closeModal(popup);
     }
   });
 });
@@ -77,7 +84,8 @@ newPlaceForm.addEventListener("submit", (event) => {
       link: inputUrl,
     },
     handleOpenCard,
-    handleLike
+    handleLike,
+    handleDeleteCard
   );
   placesContainer.prepend(newCard);
   newPlaceForm.reset();
