@@ -48,6 +48,23 @@ editPopupButton.addEventListener("click", function () {
   jobInput.value = profileDescription.textContent;
 });
 
+const showError = (input) => {
+  input.classList.add('popup__input_type_error')
+};
+
+const hideError = (input) => {
+input.classList.remove('popup__input_type_error')
+};
+
+const checkInputValidity = () => {
+  if (!nameInput.validity.valid) {
+   showError(nameInput);  
+} else {
+   hideError(nameInput);
+}
+};
+
+
 profileAddButton.addEventListener("click", function () {
   openModal(newCardPopup);
 });
