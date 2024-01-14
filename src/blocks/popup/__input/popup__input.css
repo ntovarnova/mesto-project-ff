@@ -7,20 +7,42 @@
   line-height: 18px;
   box-sizing: border-box;
   padding: 10px 0 0;
-  /*margin-bottom: 10px;*/
+  margin-bottom: 10px;
 }
 
 .popup__input:last-of-type {
   margin-bottom: 0;
 }
 
-.popup__input-error {
+.popup__input:invalid{
+  border-bottom: 1px solid red;
+}
+
+.popup__input:valid {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.form__field {
+  position: relative;
+}
+
+.popup__input-error{
   color: #f00;
   font-family: Inter;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.popup__input_type_error {
+  border-bottom-color: red;
+}
+
+.popup__input-error_active{
+  opacity: 1;
 }
 
 @media screen and (max-width: 568px) {

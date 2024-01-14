@@ -2,7 +2,7 @@ import "./pages/index.css";
 import { initialCards } from "./scripts/cards.js";
 import { openModal, closeModal } from "./components/modal.js";
 import { createCard, handleLike, handleDeleteCard } from "./components/card.js";
-
+import { clearValidation, enableValidation } from "./components/validation.js";
 const editPopupButton = document.querySelector(".profile__edit-button");
 const profileAddButton = document.querySelector(".profile__add-button");
 const editProfilePopup = document.querySelector(".popup_type_edit");
@@ -20,6 +20,14 @@ const placesContainer = document.querySelector(".places__list");
 const imagePopup = document.querySelector(".popup_type_image");
 const caption = imagePopup.querySelector(".popup__caption");
 const img = imagePopup.querySelector("img");
+const validationConfig = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inactiveButtonClass: "popup__button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__input-error_active",
+};
 
 function handleOpenCard(imageTitle, imageSrc) {
   img.src = imageSrc;
@@ -46,27 +54,12 @@ editPopupButton.addEventListener("click", function () {
   openModal(editProfilePopup);
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
+  clearValidation(editProfileForm, validationConfig);
 });
-
-const showError = (input) => {
-  input.classList.add('popup__input_type_error')
-};
-
-const hideError = (input) => {
-input.classList.remove('popup__input_type_error')
-};
-
-const checkInputValidity = () => {
-  if (!nameInput.validity.valid) {
-   showError(nameInput);  
-} else {
-   hideError(nameInput);
-}
-};
-
 
 profileAddButton.addEventListener("click", function () {
   openModal(newCardPopup);
+  clearValidation(newPlaceForm, validationConfig);
 });
 
 document.querySelectorAll(".popup").forEach((popup) => {
@@ -108,3 +101,5 @@ newPlaceForm.addEventListener("submit", (event) => {
   newPlaceForm.reset();
   closeModal(newCardPopup);
 });
+
+enableValidation(validationConfig);
