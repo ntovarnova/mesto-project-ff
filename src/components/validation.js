@@ -1,18 +1,4 @@
 //валидация
-export function clearValidation(validationConfig,formElement) {
-const inputList = Array.from(
- formElement.querySelectorAll(validationConfig.inputSelector)
-);
-const buttonElement = formElement.querySelector(
-validationConfig.submitButtonSelector
-);
-inputList.forEach((inputElement) => {
- isValid(validationConfig,formElement, inputElement);
- hideInputError(validationConfig,formElement, inputElement);
- });
- toggleButtonState(validationConfig,inputList, buttonElement);
-}
-
 const isValid = (validationConfig, formElement, inputElement) => {
   if (inputElement.validity.patternMismatch) {
     inputElement.setCustomValidity(inputElement.dataset.errorMessage);
@@ -89,4 +75,17 @@ export const enableValidation = (validationConfig) => {
   formList.forEach((formElement) => {
     setEventListeners(formElement, validationConfig);
   });
+};
+
+export const clearValidation = (formElement, validationConfig) => {
+  const inputList = Array.from(
+    formElement.querySelectorAll(validationConfig.inputSelector)
+  );
+  const buttonElement = formElement.querySelector(
+    validationConfig.submitButtonSelector
+  );
+  inputList.forEach((inputElement) => {
+    hideInputError(validationConfig, formElement, inputElement);
+  });
+  toggleButtonState(validationConfig, inputList, buttonElement);
 };

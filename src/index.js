@@ -3,6 +3,7 @@ import { initialCards } from "./scripts/cards.js";
 import { openModal, closeModal } from "./components/modal.js";
 import { createCard, handleLike, handleDeleteCard } from "./components/card.js";
 import { clearValidation, enableValidation } from "./components/validation.js";
+import { getInitialCards, getUserInfo,changeUserInfo,addNewCard } from "./components/api.js";
 const editPopupButton = document.querySelector(".profile__edit-button");
 const profileAddButton = document.querySelector(".profile__add-button");
 const editProfilePopup = document.querySelector(".popup_type_edit");
@@ -28,6 +29,13 @@ const validationConfig = {
   inputErrorClass: "popup__input_type_error",
   errorClass: "popup__input-error_active",
 };
+const profileImage = document.querySelector(".profile__image")
+const popupAvatar =document.querySelector(".popup_type_avatar")
+const editAvatar = document.forms['edit-avatar'];
+profileImage.addEventListener("click", function () {
+  editAvatar.reset()
+  clearValidation(editAvatar, validationConfig);
+  openModal(popupAvatar);})
 
 function handleOpenCard(imageTitle, imageSrc) {
   img.src = imageSrc;
@@ -45,10 +53,10 @@ function addCard(cardData) {
   );
   placeList.append(templateElement);
 }
-
+getInitialCards()
 initialCards.forEach((cardData) => {
   addCard(cardData);
-});
+}); 
 
 editPopupButton.addEventListener("click", function () {
   openModal(editProfilePopup);
@@ -59,6 +67,8 @@ editPopupButton.addEventListener("click", function () {
 
 profileAddButton.addEventListener("click", function () {
   openModal(newCardPopup);
+  cardNameInput.value= "";
+  urlInput.value="";
   clearValidation(newPlaceForm, validationConfig);
 });
 
@@ -103,3 +113,4 @@ newPlaceForm.addEventListener("submit", (event) => {
 });
 
 enableValidation(validationConfig);
+
