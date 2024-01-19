@@ -77,7 +77,7 @@ export const enableValidation = (validationConfig) => {
   });
 };
 
-export const clearValidation = (formElement, validationConfig) => {
+export const clearValidation = (formElement,validationConfig ) => {
   const inputList = Array.from(
     formElement.querySelectorAll(validationConfig.inputSelector)
   );

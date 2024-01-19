@@ -3,7 +3,13 @@ import { initialCards } from "./scripts/cards.js";
 import { openModal, closeModal } from "./components/modal.js";
 import { createCard, handleLike, handleDeleteCard } from "./components/card.js";
 import { clearValidation, enableValidation } from "./components/validation.js";
-import { getInitialCards, getUserInfo,changeUserInfo,addNewCard } from "./components/api.js";
+import {
+  getInitialCards,
+  getUserInfo,
+  changeUserInfo,
+  addNewCard,
+  updateAvatar,
+} from "./components/api.js";
 const editPopupButton = document.querySelector(".profile__edit-button");
 const profileAddButton = document.querySelector(".profile__add-button");
 const editProfilePopup = document.querySelector(".popup_type_edit");
@@ -29,13 +35,15 @@ const validationConfig = {
   inputErrorClass: "popup__input_type_error",
   errorClass: "popup__input-error_active",
 };
-const profileImage = document.querySelector(".profile__image")
-const popupAvatar =document.querySelector(".popup_type_avatar")
-const editAvatar = document.forms['edit-avatar'];
+const profileImage = document.querySelector(".profile__image");
+const popupAvatar = document.querySelector(".popup_type_avatar");
+const editAvatar = document.forms["edit-avatar"];
+
 profileImage.addEventListener("click", function () {
-  editAvatar.reset()
+  editAvatar.reset();
   clearValidation(editAvatar, validationConfig);
-  openModal(popupAvatar);})
+  openModal(popupAvatar);
+});
 
 function handleOpenCard(imageTitle, imageSrc) {
   img.src = imageSrc;
@@ -53,10 +61,6 @@ function addCard(cardData) {
   );
   placeList.append(templateElement);
 }
-getInitialCards()
-initialCards.forEach((cardData) => {
-  addCard(cardData);
-}); 
 
 editPopupButton.addEventListener("click", function () {
   openModal(editProfilePopup);
@@ -67,8 +71,8 @@ editPopupButton.addEventListener("click", function () {
 
 profileAddButton.addEventListener("click", function () {
   openModal(newCardPopup);
-  cardNameInput.value= "";
-  urlInput.value="";
+  cardNameInput.value = "";
+  urlInput.value = "";
   clearValidation(newPlaceForm, validationConfig);
 });
 
@@ -85,12 +89,14 @@ document.querySelectorAll(".popup").forEach((popup) => {
   });
 });
 
+function renderUserInfo(name, about) {
+  profileTitle.textContent = name;
+  profileDescription.textContent = about;
+}
+
 editProfileForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  const nameValue = nameInput.value;
-  const jobValue = jobInput.value;
-  profileTitle.textContent = nameValue;
-  profileDescription.textContent = jobValue;
+  renderUserInfo(nameInput.value, jobInput.value);
   closeModal(editProfilePopup);
 });
 
@@ -109,8 +115,15 @@ newPlaceForm.addEventListener("submit", (event) => {
   );
   placesContainer.prepend(newCard);
   newPlaceForm.reset();
+  addNewCard(inputCardName, inputUrl);
   closeModal(newCardPopup);
 });
 
 enableValidation(validationConfig);
 
+Promise.all([getUserInfo(), getInitialCards()]).then(([userInfo, cards]) => {
+  renderUserInfo(userInfo.name, userInfo.about);
+  cards.forEach((cardData) => {
+    addCard(cardData);
+  });
+});

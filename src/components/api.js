@@ -26,25 +26,59 @@ export const getInitialCards = () => {
 };
 
 //Редактирование профиля
-export const changeUserInfo = (profileTitle, profileDescription) => {
+export const changeUserInfo = (name, about) => {
   return fetch(`${config.baseUrl}/users/me`, {
     method: "PATCH",
     headers: config.headers,
     body: JSON.stringify({
-      name: profileTitle,
-      about: profileDescription,
+      name: name,
+      about: about,
+    }),
+  }).then((res) => checkRequest(res));
+};
+
+//Обновление аватара пользователя
+export const updateAvatar = (avatarLink) => {
+  return fetch(`${config.baseUrl}/users/me/avatar`, {
+    method: "PATCH",
+    headers: config.headers,
+    body: JSON.stringify({
+      avatar: avatarLink,
     }),
   }).then((res) => checkRequest(res));
 };
 
 //Добавление новой карточки
-export const addNewCard = (name, link) => {
+export const addNewCard = (name,link) => {
   return fetch(`${config.baseUrl}/cards`, {
     method: "POST",
     headers: config.headers,
     body: JSON.stringify({
-      name: cardData.name,
-      link: cardData.link,
+      name: name,
+      link: link,
     }),
+  }).then((res) => checkRequest(res));
+};
+
+//Удаление карточки
+export const deleteCard = (cardId) => {
+  return fetch(`${config.baseUrl}/cards/${cardId}`, {
+    method: "DELETE",
+    headers: config.headers,
+  }).then((res) => checkRequest(res));
+};
+
+// Постановка и снятие лайка
+export const likes = (cardId) => {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: "PUT",
+    headers: config.headers,
+  }).then((res) => checkRequest(res));
+};
+
+export const deletelikes = (cardId) => {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: "DELETE",
+    headers: config.headers,
   }).then((res) => checkRequest(res));
 };

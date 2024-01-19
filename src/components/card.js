@@ -7,6 +7,8 @@ export function createCard(
   handleLike,
   handleDeleteCard
 ) {
+  const myId = "f4d71ad79b760e51ae1e7991";
+  const isMyCard = cardData.owner ? cardData.owner._id === myId : true;
   const templateElement = placesItem.cloneNode(true);
   const cardImage = templateElement.querySelector(".card__image");
   const cardTitle = templateElement.querySelector(".card__title");
@@ -14,9 +16,13 @@ export function createCard(
   cardImage.src = cardData.link;
   cardImage.alt = cardData.name;
   const deleteButton = templateElement.querySelector(".card__delete-button");
-  deleteButton.addEventListener("click", () =>
-    handleDeleteCard(templateElement)
-  );
+  if (isMyCard) {
+    deleteButton.addEventListener("click", () =>
+      handleDeleteCard(templateElement)
+    );
+  } else {
+    deleteButton.remove();
+  }
   cardImage.addEventListener("click", () =>
     handleOpenCard(cardData.name, cardData.link)
   );
