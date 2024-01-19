@@ -104,18 +104,20 @@ newPlaceForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const inputCardName = cardNameInput.value;
   const inputUrl = urlInput.value;
-  const newCard = createCard(
-    {
-      name: inputCardName,
-      link: inputUrl,
-    },
-    handleOpenCard,
-    handleLike,
-    handleDeleteCard
-  );
-  placesContainer.prepend(newCard);
+  addNewCard(inputCardName, inputUrl).then((cardData) => {
+    const newCard = createCard(
+      {
+        name: inputCardName,
+        link: inputUrl,
+        _id: cardData._id
+      },
+      handleOpenCard,
+      handleLike,
+      handleDeleteCard
+    );
+    placesContainer.prepend(newCard);
+  });
   newPlaceForm.reset();
-  addNewCard(inputCardName, inputUrl);
   closeModal(newCardPopup);
 });
 

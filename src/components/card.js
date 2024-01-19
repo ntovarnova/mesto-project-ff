@@ -1,3 +1,4 @@
+import { deleteCard } from "./api.js";
 const template = document.querySelector("#card-template").content;
 const placesItem = template.querySelector(".places__item");
 
@@ -7,6 +8,7 @@ export function createCard(
   handleLike,
   handleDeleteCard
 ) {
+  const cardId = cardData._id;
   const myId = "f4d71ad79b760e51ae1e7991";
   const isMyCard = cardData.owner ? cardData.owner._id === myId : true;
   const templateElement = placesItem.cloneNode(true);
@@ -18,7 +20,7 @@ export function createCard(
   const deleteButton = templateElement.querySelector(".card__delete-button");
   if (isMyCard) {
     deleteButton.addEventListener("click", () =>
-      handleDeleteCard(templateElement)
+      handleDeleteCard(templateElement, cardId)
     );
   } else {
     deleteButton.remove();
@@ -36,6 +38,7 @@ export function handleLike(evt) {
   evt.target.classList.toggle("card__like-button_is-active");
 }
 
-export function handleDeleteCard(cardElement) {
+export function handleDeleteCard(cardElement, cardId) {
+  deleteCard(cardId);
   cardElement.remove();
 }
