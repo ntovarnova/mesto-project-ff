@@ -9,8 +9,7 @@ export function createCard(
   handleDeleteCard
 ) {
   const cardId = cardData._id;
-  const myId = "f4d71ad79b760e51ae1e7991";
-  const isMyCard = cardData.owner ? cardData.owner._id === myId : true;
+  const isMyCard = cardData.isMyCard;
   const templateElement = placesItem.cloneNode(true);
   const cardImage = templateElement.querySelector(".card__image");
   const cardTitle = templateElement.querySelector(".card__title");

@@ -109,7 +109,8 @@ newPlaceForm.addEventListener("submit", (event) => {
       {
         name: inputCardName,
         link: inputUrl,
-        _id: cardData._id
+        _id: cardData._id,
+        isMyCard: true
       },
       handleOpenCard,
       handleLike,
@@ -126,6 +127,7 @@ enableValidation(validationConfig);
 Promise.all([getUserInfo(), getInitialCards()]).then(([userInfo, cards]) => {
   renderUserInfo(userInfo.name, userInfo.about);
   cards.forEach((cardData) => {
+    cardData.isMyCard = cardData.owner._id === userInfo._id;
     addCard(cardData);
   });
 });
