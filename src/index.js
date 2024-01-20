@@ -120,13 +120,9 @@ newPlaceForm.addEventListener("submit", (event) => {
   const inputCardName = cardNameInput.value;
   const inputUrl = urlInput.value;
   addNewCard(inputCardName, inputUrl).then((cardData) => {
+    cardData.isMyCard = true;
     const newCard = createCard(
-      {
-        name: inputCardName,
-        link: inputUrl,
-        _id: cardData._id,
-        isMyCard: true,
-      },
+      cardData,
       handleOpenCard,
       handleLike,
       handleDeleteCard
@@ -144,6 +140,7 @@ Promise.all([getUserInfo(), getInitialCards()]).then(([userInfo, cards]) => {
   renderAvatar(userInfo.avatar);
   cards.forEach((cardData) => {
     cardData.isMyCard = cardData.owner._id === userInfo._id;
+    cardData.likedByMe = cardData.likes.some(x => x._id === userInfo._id);
     addCard(cardData);
   });
 });

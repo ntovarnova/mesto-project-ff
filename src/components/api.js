@@ -69,14 +69,14 @@ export const deleteCard = (cardId) => {
 };
 
 // Постановка и снятие лайка
-export const likes = (cardId) => {
+export const like = (cardId) => {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: "PUT",
     headers: config.headers,
   }).then((res) => checkRequest(res));
 };
 
-export const deletelikes = (cardId) => {
+export const unlike = (cardId) => {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: "DELETE",
     headers: config.headers,
