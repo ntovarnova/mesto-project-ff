@@ -89,9 +89,10 @@ document.querySelectorAll(".popup").forEach((popup) => {
   });
 });
 
-function renderUserInfo(name, about) {
+function renderUserInfo(name, about, avatarUrl) {
   profileTitle.textContent = name;
   profileDescription.textContent = about;
+  if (avatarUrl) profileImage.style.backgroundImage = `url(${avatarUrl})`;
 }
 
 editProfileForm.addEventListener("submit", (event) => {
@@ -110,7 +111,7 @@ newPlaceForm.addEventListener("submit", (event) => {
         name: inputCardName,
         link: inputUrl,
         _id: cardData._id,
-        isMyCard: true
+        isMyCard: true,
       },
       handleOpenCard,
       handleLike,
@@ -125,7 +126,7 @@ newPlaceForm.addEventListener("submit", (event) => {
 enableValidation(validationConfig);
 
 Promise.all([getUserInfo(), getInitialCards()]).then(([userInfo, cards]) => {
-  renderUserInfo(userInfo.name, userInfo.about);
+  renderUserInfo(userInfo.name, userInfo.about, userInfo.avatar);
   cards.forEach((cardData) => {
     cardData.isMyCard = cardData.owner._id === userInfo._id;
     addCard(cardData);
