@@ -90,10 +90,9 @@ document.querySelectorAll(".popup").forEach((popup) => {
   });
 });
 
-function renderUserInfo(name, about, avatarUrl) {
+function renderUserInfo(name, about) {
   profileTitle.textContent = name;
   profileDescription.textContent = about;
-  if (avatarUrl) renderAvatar(avatarUrl);
 }
 
 function renderAvatar(url) {
@@ -102,15 +101,17 @@ function renderAvatar(url) {
 
 editAvatar.addEventListener("submit", (event) => {
   event.preventDefault();
-  updateAvatar(avatarInput.value);
-  renderAvatar(avatarInput.value);
+  updateAvatar(avatarInput.value).then((response) => {
+    renderAvatar(response.avatar);
+  });
   closeModal(popupAvatar);
 });
 
 editProfileForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  changeUserInfo(nameInput.value, jobInput.value);
-  renderUserInfo(nameInput.value, jobInput.value);
+  changeUserInfo(nameInput.value, jobInput.value).then((response) => {
+    renderUserInfo(response.name, response.about);
+  });
   closeModal(editProfilePopup);
 });
 
@@ -139,7 +140,8 @@ newPlaceForm.addEventListener("submit", (event) => {
 enableValidation(validationConfig);
 
 Promise.all([getUserInfo(), getInitialCards()]).then(([userInfo, cards]) => {
-  renderUserInfo(userInfo.name, userInfo.about, userInfo.avatar);
+  renderUserInfo(userInfo.name, userInfo.about);
+  renderAvatar(userInfo.avatar);
   cards.forEach((cardData) => {
     cardData.isMyCard = cardData.owner._id === userInfo._id;
     addCard(cardData);
