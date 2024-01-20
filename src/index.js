@@ -38,7 +38,9 @@ const profileImage = document.querySelector(".profile__image");
 const popupAvatar = document.querySelector(".popup_type_avatar");
 const editAvatar = document.forms["edit-avatar"];
 const avatarInput = editAvatar.querySelector("#link-input");
-
+const avatarButton = editAvatar.querySelector("button");
+const editButton = editProfileForm.querySelector("button");
+const newPlaceButton = newPlaceForm.querySelector("button");
 profileImage.addEventListener("click", function () {
   editAvatar.reset();
   clearValidation(editAvatar, validationConfig);
@@ -100,22 +102,30 @@ function renderAvatar(url) {
 
 editAvatar.addEventListener("submit", (event) => {
   event.preventDefault();
+  const oldText = avatarButton.textContent;
+  avatarButton.textContent = "Сохранение...";
   updateAvatar(avatarInput.value).then((response) => {
     renderAvatar(response.avatar);
+    closeModal(popupAvatar);
+    avatarButton.textContent = oldText;
   });
-  closeModal(popupAvatar);
 });
 
 editProfileForm.addEventListener("submit", (event) => {
   event.preventDefault();
+  const oldText = editButton.textContent;
+  editButton.textContent = "Сохранение...";
   changeUserInfo(nameInput.value, jobInput.value).then((response) => {
     renderUserInfo(response.name, response.about);
+    closeModal(editProfilePopup);
+    editButton.textContent = oldText;
   });
-  closeModal(editProfilePopup);
 });
 
 newPlaceForm.addEventListener("submit", (event) => {
   event.preventDefault();
+  const oldText = newPlaceButton.textContent;
+  newPlaceButton.textContent = "Сохранение...";
   const inputCardName = cardNameInput.value;
   const inputUrl = urlInput.value;
   addNewCard(inputCardName, inputUrl).then((cardData) => {
@@ -126,10 +136,11 @@ newPlaceForm.addEventListener("submit", (event) => {
       handleLike,
       handleDeleteCard
     );
+    closeModal(newCardPopup);
     placesContainer.prepend(newCard);
+    newPlaceForm.reset();
+    newPlaceButton.textContent = oldText;
   });
-  newPlaceForm.reset();
-  closeModal(newCardPopup);
 });
 
 enableValidation(validationConfig);
@@ -139,7 +150,7 @@ Promise.all([getUserInfo(), getInitialCards()]).then(([userInfo, cards]) => {
   renderAvatar(userInfo.avatar);
   cards.forEach((cardData) => {
     cardData.isMyCard = cardData.owner._id === userInfo._id;
-    cardData.likedByMe = cardData.likes.some(x => x._id === userInfo._id);
+    cardData.likedByMe = cardData.likes.some((x) => x._id === userInfo._id);
     addCard(cardData);
   });
 });
