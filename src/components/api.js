@@ -9,6 +9,7 @@ const config = {
 
 const checkRequest = (res) => {
   if (res.ok) return res.json();
+  console.error(res);
   return Promise.reject(`Ошибка: ${res.status}`);
 };
 //информация о пользователе
