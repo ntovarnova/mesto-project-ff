@@ -1,5 +1,4 @@
 import "./pages/index.css";
-import { initialCards } from "./scripts/cards.js";
 import { openModal, closeModal } from "./components/modal.js";
 import { createCard, handleLike, handleDeleteCard } from "./components/card.js";
 import { clearValidation, enableValidation } from "./components/validation.js";
