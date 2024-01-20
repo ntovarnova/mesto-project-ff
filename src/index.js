@@ -38,6 +38,7 @@ const validationConfig = {
 const profileImage = document.querySelector(".profile__image");
 const popupAvatar = document.querySelector(".popup_type_avatar");
 const editAvatar = document.forms["edit-avatar"];
+const avatarInput = editAvatar.querySelector("#link-input");
 
 profileImage.addEventListener("click", function () {
   editAvatar.reset();
@@ -92,11 +93,23 @@ document.querySelectorAll(".popup").forEach((popup) => {
 function renderUserInfo(name, about, avatarUrl) {
   profileTitle.textContent = name;
   profileDescription.textContent = about;
-  if (avatarUrl) profileImage.style.backgroundImage = `url(${avatarUrl})`;
+  if (avatarUrl) renderAvatar(avatarUrl);
 }
+
+function renderAvatar(url) {
+  profileImage.style.backgroundImage = `url(${url})`;
+}
+
+editAvatar.addEventListener("submit", (event) => {
+  event.preventDefault();
+  updateAvatar(avatarInput.value);
+  renderAvatar(avatarInput.value);
+  closeModal(popupAvatar);
+});
 
 editProfileForm.addEventListener("submit", (event) => {
   event.preventDefault();
+  changeUserInfo(nameInput.value, jobInput.value);
   renderUserInfo(nameInput.value, jobInput.value);
   closeModal(editProfilePopup);
 });
