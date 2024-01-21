@@ -44,11 +44,11 @@ export function handleLike(evt, cardId, likeCount) {
     : like(cardId)
   ).then((result) => {
     likeCount.textContent = result.likes.length;
-  });
+  }).catch(err => console.log(err));
   heart.classList.toggle("card__like-button_is-active");
 }
 
 export function handleDeleteCard(cardElement, cardId) {
-  deleteCard(cardId);
+  deleteCard(cardId).catch(err => console.log(err));
   cardElement.remove();
 }

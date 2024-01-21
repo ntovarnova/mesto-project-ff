@@ -157,12 +157,14 @@ newPlaceForm.addEventListener("submit", (event) => {
 
 enableValidation(validationConfig);
 
-Promise.all([getUserInfo(), getInitialCards()]).then(([userInfo, cards]) => {
-  renderUserInfo(userInfo.name, userInfo.about);
-  renderAvatar(userInfo.avatar);
-  cards.forEach((cardData) => {
-    cardData.isMyCard = cardData.owner._id === userInfo._id;
-    cardData.likedByMe = cardData.likes.some((x) => x._id === userInfo._id);
-    addCard(cardData);
-  });
-});
+Promise.all([getUserInfo(), getInitialCards()])
+  .then(([userInfo, cards]) => {
+    renderUserInfo(userInfo.name, userInfo.about);
+    renderAvatar(userInfo.avatar);
+    cards.forEach((cardData) => {
+      cardData.isMyCard = cardData.owner._id === userInfo._id;
+      cardData.likedByMe = cardData.likes.some((x) => x._id === userInfo._id);
+      addCard(cardData);
+    });
+  })
+  .catch((err) => console.log(err));
