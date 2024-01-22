@@ -11,7 +11,7 @@ import {
 } from "./components/api.js";
 const buttonOpenPopupProfile = document.querySelector(".profile__edit-button");
 const buttonOpenPopupNewPlace = document.querySelector(".profile__add-button");
-const editProfilePopup = document.querySelector(".popup_type_edit");
+const profileEditPopup = document.querySelector(".popup_type_edit");
 const newCardPopup = document.querySelector(".popup_type_new-card");
 const editProfileForm = document.forms["edit-profile"];
 const nameInput = document.querySelector(".popup__input_type_name");
@@ -36,14 +36,14 @@ const validationConfig = {
 };
 const imageOpenPopupAvatar = document.querySelector(".profile__image");
 const popupAvatar = document.querySelector(".popup_type_avatar");
-const editAvatarForm = document.forms["edit-avatar"];
-const avatarInput = editAvatarForm.querySelector("#link-input");
-const avatarButton = editAvatarForm.querySelector("button");
+const avatarEditForm = document.forms["edit-avatar"];
+const avatarInput = avatarEditForm.querySelector("#link-input");
+const avatarButton = avatarEditForm.querySelector("button");
 const editButton = editProfileForm.querySelector("button");
 const newPlaceButton = newPlaceForm.querySelector("button");
 imageOpenPopupAvatar.addEventListener("click", function () {
-  editAvatarForm.reset();
-  clearValidation(editAvatarForm, validationConfig);
+  avatarEditForm.reset();
+  clearValidation(avatarEditForm, validationConfig);
   openModal(popupAvatar);
 });
 
@@ -65,7 +65,7 @@ function addCard(cardData) {
 }
 
 buttonOpenPopupProfile.addEventListener("click", function () {
-  openModal(editProfilePopup);
+  openModal(profileEditPopup);
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
   clearValidation(editProfileForm, validationConfig);
@@ -100,7 +100,7 @@ function renderAvatar(url) {
   imageOpenPopupAvatar.style.backgroundImage = `url(${url})`;
 }
 
-editAvatarForm.addEventListener("submit", (event) => {
+avatarEditForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const oldText = avatarButton.textContent;
   avatarButton.textContent = "Сохранение...";
@@ -108,11 +108,11 @@ editAvatarForm.addEventListener("submit", (event) => {
     .then((response) => {
       renderAvatar(response.avatar);
       closeModal(popupAvatar);
-      avatarButton.textContent = oldText;
     })
     .catch((err) => {
       console.log(err);
-    });
+    })
+    .finally(() => (avatarButton.textContent = oldText));
 });
 
 editProfileForm.addEventListener("submit", (event) => {
@@ -122,12 +122,12 @@ editProfileForm.addEventListener("submit", (event) => {
   changeUserInfo(nameInput.value, jobInput.value)
     .then((response) => {
       renderUserInfo(response.name, response.about);
-      closeModal(editProfilePopup);
-      editButton.textContent = oldText;
+      closeModal(profileEditPopup);
     })
     .catch((err) => {
       console.log(err);
-    });
+    })
+    .finally(() => (editButton.textContent = oldText));
 });
 
 newPlaceForm.addEventListener("submit", (event) => {
@@ -148,11 +148,11 @@ newPlaceForm.addEventListener("submit", (event) => {
       closeModal(newCardPopup);
       placesContainer.prepend(newCard);
       newPlaceForm.reset();
-      newPlaceButton.textContent = oldText;
     })
     .catch((err) => {
       console.log(err);
-    });
+    })
+    .finally(() => (newPlaceButton.textContent = oldText));
 });
 
 enableValidation(validationConfig);

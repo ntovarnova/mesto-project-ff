@@ -50,7 +50,7 @@ export const updateAvatar = (avatarLink) => {
 };
 
 //Добавление новой карточки
-export const addNewCard = (name,link) => {
+export const addNewCard = (name, link) => {
   return fetch(`${config.baseUrl}/cards`, {
     method: "POST",
     headers: config.headers,
